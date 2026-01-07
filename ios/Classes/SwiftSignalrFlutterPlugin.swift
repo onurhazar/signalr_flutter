@@ -50,7 +50,13 @@ public class SwiftSignalrFlutterPlugin: NSObject, FlutterPlugin, FLTSignalRHostA
     if let hubMethods = connectionOptions.hubMethods, !hubMethods.isEmpty {
       hubMethods.forEach { (methodName) in
         hub.on(methodName) { (args) in
-          SwiftSignalrFlutterPlugin.signalrApi?.onNewMessageHubName(methodName, message: args?[0] as? String ?? "", completion: { error in })
+          let arguments: [String] = (args as? [Any])?.map { String(describing: $0) } ?? []
+          print("SignalR onNewMessage method=\(methodName) args=\(arguments) count=\(arguments.count)")
+          SwiftSignalrFlutterPlugin.signalrApi?.onNewMessageHubName(
+              methodName,
+              arguments: arguments,
+              completion: { _ in }
+          )
         }
       }
     }
@@ -123,8 +129,11 @@ public class SwiftSignalrFlutterPlugin: NSObject, FlutterPlugin, FLTSignalRHostA
   public func stop(completion: @escaping (FlutterError?) -> Void) {
     if let connection = self.connection {
       connection.stop()
+      completion(nil)
     } else {
-      completion(FlutterError(code: "platform-error", message: "SignalR Connection not found or null", details: "Start SignalR connection first"))
+      completion(FlutterError(code: "platform-error",
+                              message: "SignalR Connection not found or null",
+                              details: "Start SignalR connection first"))
     }
   }
 

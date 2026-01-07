@@ -71,6 +71,6 @@ NSObject<FlutterMessageCodec> *FLTSignalRPlatformApiGetCodec(void);
 @interface FLTSignalRPlatformApi : NSObject
 - (instancetype)initWithBinaryMessenger:(id<FlutterBinaryMessenger>)binaryMessenger;
 - (void)onStatusChangeStatusChangeResult:(FLTStatusChangeResult *)statusChangeResult completion:(void(^)(NSError *_Nullable))completion;
-- (void)onNewMessageHubName:(NSString *)hubName message:(NSString *)message completion:(void(^)(NSError *_Nullable))completion;
+- (void)onNewMessageHubName:(NSString *)hubName arguments:(NSArray<NSString *> *)arguments completion:(void(^)(NSError *_Nullable))completion;
 @end
 NS_ASSUME_NONNULL_END

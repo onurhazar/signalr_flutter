@@ -333,12 +333,12 @@ NSObject<FlutterMessageCodec> *FLTSignalRPlatformApiGetCodec() {
     completion(nil);
   }];
 }
-- (void)onNewMessageHubName:(NSString *)arg_hubName message:(NSString *)arg_message completion:(void(^)(NSError *_Nullable))completion {
+- (void)onNewMessageHubName:(NSString *)arg_hubName arguments:(NSArray<NSString *> *)arg_arguments completion:(void(^)(NSError *_Nullable))completion {
   FlutterBasicMessageChannel *channel =
     [FlutterBasicMessageChannel
       messageChannelWithName:@"dev.flutter.pigeon.SignalRPlatformApi.onNewMessage"
       binaryMessenger:self.binaryMessenger
-      codec:FLTSignalRPlatformApiGetCodec()      ];  [channel sendMessage:@[arg_hubName ?: [NSNull null], arg_message ?: [NSNull null]] reply:^(id reply) {
+      codec:FLTSignalRPlatformApiGetCodec()      ];  [channel sendMessage:@[arg_hubName ?: [NSNull null], arg_arguments ?: [NSNull null]] reply:^(id reply) {
     completion(nil);
   }];
 }

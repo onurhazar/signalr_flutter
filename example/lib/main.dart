@@ -87,7 +87,7 @@ class _MyAppState extends State<MyApp> {
     }
   }
 
-  void _onNewMessage(String methodName, String message) {
+  void _onNewMessage(String methodName, List<String?> message) {
     print("MethodName = $methodName, Message = $message");
   }
 

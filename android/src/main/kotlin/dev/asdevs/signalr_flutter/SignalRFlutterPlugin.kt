@@ -13,6 +13,9 @@ import microsoft.aspnet.signalr.client.hubs.HubProxy
 import microsoft.aspnet.signalr.client.transport.LongPollingTransport
 import microsoft.aspnet.signalr.client.transport.ServerSentEventsTransport
 import java.lang.Exception
+import com.google.gson.JsonArray
+import com.google.gson.JsonElement
+import com.google.gson.JsonPrimitive
 
 /** SignalrFlutterPlugin */
 class SignalrFlutterPlugin : FlutterPlugin, SignalrApi.SignalRHostApi {
@@ -57,11 +60,22 @@ class SignalrFlutterPlugin : FlutterPlugin, SignalrApi.SignalRHostApi {
             hub = connection.createHubProxy(connectionOptions.hubName)
 
             connectionOptions.hubMethods?.forEach { methodName ->
-                hub.on(methodName, { res ->
-                    Handler(Looper.getMainLooper()).post {
-                        signalrApi.onNewMessage(methodName, res) { }
+                hub.on(methodName, { res: JsonElement? ->
+                    val arguments: List<String> = when {
+                        res == null || res.isJsonNull -> emptyList()
+                        res.isJsonArray -> {
+                            val arr: JsonArray = res.asJsonArray
+                            arr.map { it.toStringSafe() }
+                        }
+                        res.isJsonPrimitive -> listOf(res.toStringSafe())
+                        else -> listOf(res.toString())
                     }
-                }, String::class.java)
+
+                    Handler(Looper.getMainLooper()).post {
+                        android.util.Log.d("SignalR", "onNewMessage method=$methodName args=$arguments size=${arguments.size}")
+                        signalrApi.onNewMessage(methodName, arguments) { }
+                    }
+                }, JsonElement::class.java)
             }
 
             connection.connected {
@@ -192,6 +206,19 @@ class SignalrFlutterPlugin : FlutterPlugin, SignalrApi.SignalRHostApi {
             }
         } catch (ex: Exception) {
             result?.error(ex)
+        }
+    }
+
+    private fun JsonElement.toStringSafe(): String {
+        return try {
+            if (this.isJsonNull) return ""
+            if (this.isJsonPrimitive) {
+                val p: JsonPrimitive = this.asJsonPrimitive
+                return if (p.isString) p.asString else p.toString()
+            }
+            this.toString()
+        } catch (_: Exception) {
+            this.toString()
         }
     }
 }
