@@ -15,7 +15,7 @@ class SignalR extends SignalrPlatformInterface implements SignalRPlatformApi {
     super.queryString,
     super.headers,
     super.hubMethods,
-    Transport transport = Transport.auto,
+    super.transport = Transport.auto,
     super.statusChangeCallback,
     super.hubCallback,
     this.connectionErrorCallback,
