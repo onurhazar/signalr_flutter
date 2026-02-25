@@ -69,7 +69,7 @@ class SignalrFlutterPlugin : FlutterPlugin, SignalrApi.SignalRHostApi {
         connectionOptions: SignalrApi.ConnectionOptions,
         result: SignalrApi.Result<String>?
     ) {
-        connectionOptions.transport = SignalrApi.Transport.LONG_POLLING
+
         if (DEBUG_LOGS) {
             Log.d(
                 TAG,
@@ -274,7 +274,6 @@ class SignalrFlutterPlugin : FlutterPlugin, SignalrApi.SignalRHostApi {
             if (DEBUG_LOGS) {
                 Log.d(TAG, "connect() - startFuture created, attaching callbacks")
             }
-            postStatus(SignalrApi.ConnectionStatus.CONNECTING)
 
             // 9. Only COMPLETE result when start() actually finishes
             startFuture.done {
@@ -285,11 +284,6 @@ class SignalrFlutterPlugin : FlutterPlugin, SignalrApi.SignalRHostApi {
                 }
 
                 Handler(Looper.getMainLooper()).post {
-                    // In case connection.connected() didn't fire for some reason,
-                    // ensure Flutter sees CONNECTED at least once.
-                    if (state == ConnectionState.Connected) {
-                        postStatus(SignalrApi.ConnectionStatus.CONNECTED)
-                    }
                     result?.success(id ?: "")
                 }
             }
