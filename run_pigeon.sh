@@ -2,8 +2,8 @@
 flutter pub run pigeon \
   --input pigeons/signalr_api.dart \
   --dart_out lib/signalr_api.dart \
-  --objc_header_out ios/Classes/SignalrApi.h \
-  --objc_source_out ios/Classes/SignalrApi.m \
+  --objc_header_out ios/signalr_flutter/Sources/signalr_flutter_pigeon/include/signalr_flutter_pigeon/SignalrApi.h \
+  --objc_source_out ios/signalr_flutter/Sources/signalr_flutter_pigeon/SignalrApi.m \
   --objc_prefix FLT \
   --java_out android/src/main/java/dev/asdevs/signalr_flutter/SignalrApi.java \
   --java_package "dev.asdevs.signalr_flutter"

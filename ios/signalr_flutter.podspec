@@ -13,8 +13,8 @@ A new flutter plugin project.
   s.license          = { :file => '../LICENSE' }
   s.author           = { 'Ayon Das' => 'ayantorres@gmail.com' }
   s.source           = { :path => '.' }
-  s.source_files = 'Classes/**/*'
-  s.resources = 'Assets/**/*.js'
+  s.source_files = 'Classes/**/*', 'signalr_flutter/Sources/**/*.{h,m,swift}'
+  s.resources = 'signalr_flutter/Sources/signalr_flutter/Resources/**/*.js'
   s.dependency 'Flutter'
   s.platform = :ios, '8.0'
 

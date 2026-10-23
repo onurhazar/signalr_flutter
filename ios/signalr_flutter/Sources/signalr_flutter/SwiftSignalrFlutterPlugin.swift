@@ -1,5 +1,10 @@
 import Flutter
 import UIKit
+#if canImport(signalr_flutter_pigeon)
+// Swift Package Manager: the Pigeon bindings live in their own target.
+// Under CocoaPods they are part of this module, so nothing to import.
+import signalr_flutter_pigeon
+#endif
 
 public class SwiftSignalrFlutterPlugin: NSObject, FlutterPlugin, FLTSignalRHostApi {
   private static var signalrApi : FLTSignalRPlatformApi?

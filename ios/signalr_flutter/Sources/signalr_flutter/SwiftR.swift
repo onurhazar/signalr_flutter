@@ -172,7 +172,12 @@ open class SignalR: NSObject, WKNavigationDelegate, WKScriptMessageHandler {
 
   private func initialize() {
 
+    #if SWIFT_PACKAGE
+    // Swift Package Manager puts the JavaScript resources in the package's resource bundle.
+    let bundle = Bundle.module
+    #else
     let bundle = Bundle(for: SignalrFlutterPlugin.self)
+    #endif
     let jqueryURL = bundle.url(forResource: "jquery-2.1.3.min", withExtension: "js")!
     let signalRURL = bundle.url(forResource: "jquery.signalr-\(signalRVersion).min", withExtension: "js")!
     let jsURL = bundle.url(forResource: "SwiftR", withExtension: "js")!

@@ -59,8 +59,8 @@ void configurePigeon(PigeonOptions opts) {
   opts = const PigeonOptions(
     input: 'pigeons/signalr_api.dart',
     dartOut: '../lib/signalr_api.dart',
-    objcHeaderOut: 'ios/Classes/signalr_api.h',
-    objcSourceOut: 'ios/Classes/signalr_api.m',
+    objcHeaderOut: 'ios/signalr_flutter/Sources/signalr_flutter_pigeon/include/signalr_flutter_pigeon/SignalrApi.h',
+    objcSourceOut: 'ios/signalr_flutter/Sources/signalr_flutter_pigeon/SignalrApi.m',
     javaOut: 'android/src/main/java/dev/asdevs/signalr_flutter/Signalr_Api.java',
   );
 }
